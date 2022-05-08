@@ -10,7 +10,11 @@ import Config
 # Configures the endpoint
 config :speedy, SpeedyWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: SpeedyWeb.ErrorView, accepts: ~w(html json), layout: false],
+  render_errors: [
+    view: SpeedyWeb.ErrorView,
+    accepts: ~w(html json),
+    layout: false
+  ],
   pubsub_server: Speedy.PubSub,
   live_view: [signing_salt: "0PHzGDH4"]
 

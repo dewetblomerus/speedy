@@ -4,12 +4,12 @@ import Config
 # you can enable the server option below.
 config :speedy, SpeedyWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "ht0XkI+ZVwnN4GVV+Utvl4KoSfNaIo56Gl+EaG2MVHmkA7unUHhPxSO6H0JOdjd3",
+  secret_key_base:
+    "ht0XkI+ZVwnN4GVV+Utvl4KoSfNaIo56Gl+EaG2MVHmkA7unUHhPxSO6H0JOdjd3",
   server: false
 
 # In test we don't send emails.
-config :speedy, Speedy.Mailer,
-  adapter: Swoosh.Adapters.Test
+config :speedy, Speedy.Mailer, adapter: Swoosh.Adapters.Test
 
 # Print only warnings and errors during test
 config :logger, level: :warn

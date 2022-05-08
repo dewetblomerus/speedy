@@ -1,4 +1,10 @@
 [
   import_deps: [:phoenix],
-  inputs: ["*.{ex,exs}", "{config,lib,test}/**/*.{ex,exs}"]
+  plugins: [Phoenix.LiveView.HTMLFormatter],
+  inputs:
+    Enum.flat_map(
+      ["*.{heex,ex,exs}", "{config,lib,test}/**/*.{heex,ex,exs}"],
+      &Path.wildcard(&1, match_dot: true)
+    ) -- ["lib/speedy_web/templates/layout/live.html.heex"],
+  line_length: 80
 ]

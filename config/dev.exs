@@ -13,10 +13,12 @@ config :speedy, SpeedyWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "aku3nSqh8xC4jACMY/69z3ROHrjFWGyiA3aT+w9TXynGjJorVDnWEMgcp9G41HCL",
+  secret_key_base:
+    "aku3nSqh8xC4jACMY/69z3ROHrjFWGyiA3aT+w9TXynGjJorVDnWEMgcp9G41HCL",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+    esbuild:
+      {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
   ]
 
 # ## SSL Support
