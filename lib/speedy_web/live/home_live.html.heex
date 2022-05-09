@@ -14,4 +14,23 @@
       id="amount"
     />
   </div>
+
+  <table>
+    <tr>
+      <th>id</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Weapon</th>
+      <th>Status</th>
+    </tr>
+    <%= for person <- @people do %>
+      <tr>
+        <td><%= person.id %></td>
+        <td><%= person.name %></td>
+        <td><%= person.age %></td>
+        <td><%= person.weapon %></td>
+        <td><%= person.status %></td>
+      </tr>
+    <% end %>
+  </table>
 </form>
