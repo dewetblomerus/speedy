@@ -1,10 +1,13 @@
 defmodule SpeedyWeb.HomeLive do
+  require Logger
   use SpeedyWeb, :live_view
   alias Speedy.People
 
   @impl true
   def mount(_params, _session, socket) do
     initial_amount = 5
+    send(self(), {:tick, 1})
+    Logger.debug("Mount 🐴")
 
     {:ok,
      assign(
@@ -16,7 +19,6 @@ defmodule SpeedyWeb.HomeLive do
 
   @impl Phoenix.LiveView
   def handle_event("update", %{"amount" => input_amount}, socket) do
-    IO.inspect(socket, label: "🔌")
     amount = String.to_integer(input_amount)
 
     {:noreply,
@@ -25,5 +27,19 @@ defmodule SpeedyWeb.HomeLive do
        amount: amount,
        people: People.generate(amount)
      )}
+  end
+
+  def handle_info(
+        {:tick, tick_count},
+        %Phoenix.LiveView.Socket{
+          assigns: %{
+            people: people,
+            amount: amount
+          }
+        } = socket
+      ) do
+    Process.send_after(self(), {:tick, tick_count + 1}, 1000)
+    Logger.debug("ticking #{tick_count} ⏰")
+    {:noreply, assign(socket, people: People.update(people, 20))}
   end
 end
