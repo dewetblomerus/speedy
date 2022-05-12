@@ -13,6 +13,7 @@ defmodule SpeedyWeb.HomeLive do
      assign(
        socket,
        amount: initial_amount,
+       tick: 0,
        people: People.generate(initial_amount)
      )}
   end
@@ -40,6 +41,8 @@ defmodule SpeedyWeb.HomeLive do
       ) do
     Process.send_after(self(), {:tick, tick_count + 1}, 1000)
     Logger.debug("ticking #{tick_count} ⏰")
-    {:noreply, assign(socket, people: People.update(people, 20))}
+
+    {:noreply,
+     assign(socket, people: People.update(people, 20), tick: tick_count)}
   end
 end
