@@ -5,7 +5,7 @@ defmodule SpeedyWeb.HomeLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    initial_amount = 5
+    initial_amount = 15
     send(self(), {:tick, 1})
     Logger.debug("Mount 🐴")
 
@@ -43,6 +43,6 @@ defmodule SpeedyWeb.HomeLive do
     Logger.debug("ticking #{tick_count} ⏰")
 
     {:noreply,
-     assign(socket, people: People.update(people, 20), tick: tick_count)}
+     assign(socket, people: People.update(people, 15), tick: tick_count)}
   end
 end
