@@ -20,7 +20,11 @@ defmodule SpeedyWeb.HomeLive do
 
   @impl Phoenix.LiveView
   def handle_event("update", %{"amount" => input_amount}, socket) do
-    amount = String.to_integer(input_amount)
+    amount =
+      input_amount
+      |> String.to_integer()
+      |> min(max_amount())
+      |> max(min_amount())
 
     {:noreply,
      assign(
@@ -30,6 +34,7 @@ defmodule SpeedyWeb.HomeLive do
      )}
   end
 
+  @impl true
   def handle_info(
         {:tick, tick_count},
         %Phoenix.LiveView.Socket{
@@ -43,6 +48,9 @@ defmodule SpeedyWeb.HomeLive do
     Logger.debug("ticking #{tick_count} ⏰")
 
     {:noreply,
-     assign(socket, people: People.update(people, 15), tick: tick_count)}
+     assign(socket, people: People.update(people, 12), tick: tick_count)}
   end
+
+  def max_amount, do: 30000
+  def min_amount, do: 1
 end

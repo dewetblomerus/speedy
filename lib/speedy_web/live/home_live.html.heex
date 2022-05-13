@@ -11,6 +11,8 @@
       placeholder="Amount"
       autocomplete="off"
       id="amount"
+      min={min_amount()}
+      max={max_amount()}
     />
   </div>
 
@@ -24,14 +26,26 @@
       <th>Weapon</th>
       <th>Status</th>
     </tr>
-    <%= for person <- @people do %>
-      <tr>
-        <td><%= person.id %></td>
-        <td><%= person.name %></td>
-        <td><%= person.age %></td>
-        <td><%= person.weapon %></td>
-        <td><%= person.status %></td>
-      </tr>
+    <%= if false do %>
+      <h3>Heex Inside Comprehension</h3>
+      <%= for person <- @people do %>
+        <tr id={"person-#{person.id}"}>
+          <td><%= person.id %></td>
+          <td><%= person.name %></td>
+          <td><%= person.age %></td>
+          <td><%= person.weapon %></td>
+          <td><%= person.status %></td>
+        </tr>
+      <% end %>
+    <% else %>
+      <h3>Live Components</h3>
+      <%= for person <- @people do %>
+        <.live_component
+          module={SpeedyWeb.PersonComponent}
+          id={"person-#{person.id}"}
+          person={person}
+        />
+      <% end %>
     <% end %>
   </table>
 </form>
