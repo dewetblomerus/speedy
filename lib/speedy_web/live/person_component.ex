@@ -5,7 +5,7 @@ defmodule SpeedyWeb.PersonComponent do
 
   def render(assigns) do
     ~H"""
-      <tr id={"person-row-#{@person.id}"}>
+      <tr>
         <td><%= @person.id %></td>
         <td><%= @person.name %></td>
         <td><%= @person.age %></td>

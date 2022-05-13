@@ -1,51 +1,35 @@
-<form phx-change="update" phx-submit="find-average">
-  <div>
-    <label for="amount">
-      Amont
-    </label>
-    <input
-      type="number"
-      name="amount"
-      amount="amount"
-      value={@amount}
-      placeholder="Amount"
-      autocomplete="off"
-      id="amount"
-      min={min_amount()}
-      max={max_amount()}
-    />
-  </div>
+<%= form_for :people, "#", [as: :search, phx_change: :update], fn f -> %>
+  <%= label(f, :amount) %>
+  <%= number_input(
+    f,
+    :amount,
+    value: @amount,
+    min: min_amount(),
+    max: max_amount()
+  ) %>
+  <%= submit("Search") %>
 
-  <h1><%= @tick %></h1>
+  <%= label(f, :render_strategy) %>
+  <%= select(
+    f,
+    :render_strategy,
+    "Heex Inside Comprehension": "default_comprehension",
+    "Heex Inside Comprehension With ID": "default_with_id",
+    "Live Components Number Ids": "live_components_number_ids",
+    "Live Components String Ids": "live_components_string_ids"
+  ) %>
+<% end %>
 
-  <table>
-    <tr>
-      <th>id</th>
-      <th>Name</th>
-      <th>Age</th>
-      <th>Weapon</th>
-      <th>Status</th>
-    </tr>
-    <%= if false do %>
-      <h3>Heex Inside Comprehension</h3>
-      <%= for person <- @people do %>
-        <tr id={"person-#{person.id}"}>
-          <td><%= person.id %></td>
-          <td><%= person.name %></td>
-          <td><%= person.age %></td>
-          <td><%= person.weapon %></td>
-          <td><%= person.status %></td>
-        </tr>
-      <% end %>
-    <% else %>
-      <h3>Live Components</h3>
-      <%= for person <- @people do %>
-        <.live_component
-          module={SpeedyWeb.PersonComponent}
-          id={"person-#{person.id}"}
-          person={person}
-        />
-      <% end %>
-    <% end %>
-  </table>
-</form>
+<h1><%= @tick %></h1>
+
+
+<table>
+  <tr>
+    <th>id</th>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Weapon</th>
+    <th>Status</th>
+  </tr>
+  <SpeedyWeb.PeopleRenderer.list_people people={@people} render_strategy={@render_strategy} />
+</table>

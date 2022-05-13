@@ -14,12 +14,22 @@ defmodule SpeedyWeb.HomeLive do
        socket,
        amount: initial_amount,
        tick: 0,
-       people: People.generate(initial_amount)
+       people: People.generate(initial_amount),
+       render_strategy: "default_comprehension"
      )}
   end
 
   @impl Phoenix.LiveView
-  def handle_event("update", %{"amount" => input_amount}, socket) do
+  def handle_event(
+        "update",
+        %{
+          "people" => %{
+            "amount" => input_amount,
+            "render_strategy" => render_strategy
+          }
+        } = params,
+        socket
+      ) do
     amount =
       input_amount
       |> String.to_integer()
@@ -30,7 +40,8 @@ defmodule SpeedyWeb.HomeLive do
      assign(
        socket,
        amount: amount,
-       people: People.generate(amount)
+       people: People.generate(amount),
+       render_strategy: render_strategy
      )}
   end
 
