@@ -14,7 +14,7 @@ defmodule SpeedyWeb.HomeLive do
        socket,
        amount: initial_amount,
        tick: 0,
-       people: People.generate(initial_amount),
+       people: People.list(limit: initial_amount),
        render_strategy: "default_comprehension"
      )}
   end
@@ -40,7 +40,7 @@ defmodule SpeedyWeb.HomeLive do
      assign(
        socket,
        amount: amount,
-       people: People.generate(amount),
+       people: People.list(limit: amount),
        render_strategy: render_strategy
      )}
   end
@@ -50,15 +50,14 @@ defmodule SpeedyWeb.HomeLive do
         {:tick, tick_count},
         %Phoenix.LiveView.Socket{
           assigns: %{
-            people: people
+            amount: amount
           }
         } = socket
       ) do
     Process.send_after(self(), {:tick, tick_count + 1}, 1000)
     Logger.debug("ticking #{tick_count} ⏰")
 
-    {:noreply,
-     assign(socket, people: People.update(people, 12), tick: tick_count)}
+    {:noreply, assign(socket, people: People.list(limit: amount), tick: tick_count)}
   end
 
   def max_amount, do: 30000

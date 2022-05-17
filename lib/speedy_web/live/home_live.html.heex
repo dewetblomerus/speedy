@@ -22,7 +22,6 @@
 
 <h1><%= @tick %></h1>
 
-
 <table>
   <tr>
     <th>id</th>
@@ -31,5 +30,8 @@
     <th>Weapon</th>
     <th>Status</th>
   </tr>
-  <SpeedyWeb.PeopleRenderer.list_people people={@people} render_strategy={@render_strategy} />
+  <SpeedyWeb.PeopleRenderer.list_people
+    people={@people}
+    render_strategy={@render_strategy}
+  />
 </table>

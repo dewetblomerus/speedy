@@ -13,7 +13,8 @@ defmodule Speedy.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Speedy.PubSub},
       # Start the Endpoint (http/https)
-      SpeedyWeb.Endpoint
+      SpeedyWeb.Endpoint,
+      Speedy.PeopleServer
       # Start a worker by calling: Speedy.Worker.start_link(arg)
       # {Speedy.Worker, arg}
     ]
