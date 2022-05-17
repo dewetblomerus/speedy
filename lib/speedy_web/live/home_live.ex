@@ -27,7 +27,7 @@ defmodule SpeedyWeb.HomeLive do
             "amount" => input_amount,
             "render_strategy" => render_strategy
           }
-        } = params,
+        },
         socket
       ) do
     amount =
@@ -50,8 +50,7 @@ defmodule SpeedyWeb.HomeLive do
         {:tick, tick_count},
         %Phoenix.LiveView.Socket{
           assigns: %{
-            people: people,
-            amount: amount
+            people: people
           }
         } = socket
       ) do
