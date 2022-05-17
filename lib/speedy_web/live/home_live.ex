@@ -13,9 +13,11 @@ defmodule SpeedyWeb.HomeLive do
      assign(
        socket,
        amount: initial_amount,
-       tick: 0,
+       current_page: 1,
+       paginated: false,
        people: People.list(limit: initial_amount),
-       render_strategy: "default_comprehension"
+       render_strategy: "default_comprehension",
+       tick: 0
      )}
   end
 
@@ -24,22 +26,20 @@ defmodule SpeedyWeb.HomeLive do
         "update",
         %{
           "people" => %{
-            "amount" => input_amount,
-            "render_strategy" => render_strategy
+            "amount" => amount_input,
+            "render_strategy" => render_strategy,
+            "paginated" => paginated_input
           }
         },
         socket
       ) do
-    amount =
-      input_amount
-      |> String.to_integer()
-      |> min(max_amount())
-      |> max(min_amount())
+    amount = parse_amount(amount_input)
 
     {:noreply,
      assign(
        socket,
        amount: amount,
+       paginated: parse_boolean(paginated_input),
        people: People.list(limit: amount),
        render_strategy: render_strategy
      )}
@@ -57,9 +57,24 @@ defmodule SpeedyWeb.HomeLive do
     Process.send_after(self(), {:tick, tick_count + 1}, 1000)
     Logger.debug("ticking #{tick_count} ⏰")
 
-    {:noreply, assign(socket, people: People.list(limit: amount), tick: tick_count)}
+    {:noreply,
+     assign(socket, people: People.list(limit: amount), tick: tick_count)}
   end
 
   def max_amount, do: 30000
   def min_amount, do: 1
+
+  defp parse_amount(amount_input) do
+    amount_input
+    |> String.to_integer()
+    |> min(max_amount())
+    |> max(min_amount())
+  end
+
+  defp parse_boolean(boolean_input) do
+    case boolean_input do
+      "true" -> true
+      "false" -> false
+    end
+  end
 end

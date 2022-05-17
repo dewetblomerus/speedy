@@ -18,6 +18,9 @@
     "Live Components Number Ids": "live_components_number_ids",
     "Live Components String Ids": "live_components_string_ids"
   ) %>
+
+  <%= label(f, :paginated) %>
+  <%= checkbox(f, :paginated, value: @paginated) %>
 <% end %>
 
 <h1><%= @tick %></h1>
@@ -35,3 +38,7 @@
     render_strategy={@render_strategy}
   />
 </table>
+
+<%= if @paginated do %>
+  We are paginated!!!
+<% end %>
