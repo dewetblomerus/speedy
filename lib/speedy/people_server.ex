@@ -45,12 +45,6 @@ defmodule Speedy.PeopleServer do
   end
 
   defp update_people() do
-    updated_people =
-      People.list(limit: @big_list_length)
-      |> People.update(12)
-
-    :ets.insert(:people, {:all, updated_people})
-
     for page <- 1..@pages do
       updated_people =
         People.list(page: page)
@@ -58,5 +52,10 @@ defmodule Speedy.PeopleServer do
 
       :ets.insert(:people, {page, updated_people})
     end
+
+    updated_people =
+      People.list_from_pages(limit: @big_list_length)
+
+    :ets.insert(:people, {:all, updated_people})
   end
 end

@@ -7,6 +7,13 @@ defmodule Speedy.People do
     Enum.take(people, limit)
   end
 
+  def list(page: page) do
+    case :ets.lookup(:people, page) do
+      [] -> []
+      [{_, people}] -> people
+    end
+  end
+
   def list_from_pages(limit: limit) do
     Enum.reduce_while(1..1_000_000, [], fn page, people ->
       case Speedy.People.list(page: page) do
@@ -20,13 +27,6 @@ defmodule Speedy.People do
           {:cont, people ++ page_of_people}
       end
     end)
-  end
-
-  def list(page: page) do
-    case :ets.lookup(:people, page) do
-      [] -> []
-      [{_, people}] -> people
-    end
   end
 
   def generate(amount) do
