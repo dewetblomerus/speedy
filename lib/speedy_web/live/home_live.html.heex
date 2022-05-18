@@ -1,14 +1,4 @@
 <%= form_for :people, "#", [as: :search, phx_change: :update], fn f -> %>
-  <%= label(f, :amount) %>
-  <%= number_input(
-    f,
-    :amount,
-    value: @amount,
-    min: min_amount(),
-    max: max_amount()
-  ) %>
-  <%= submit("Search") %>
-
   <%= label(f, :render_strategy) %>
   <%= select(
     f,
@@ -19,11 +9,53 @@
     "Live Components String Ids": "live_components_string_ids"
   ) %>
 
-  <%= label(f, :paginated) %>
-  <%= checkbox(f, :paginated, value: @paginated) %>
+  <%= label(f, :paginate) %>
+  <%= checkbox(f, :paginate, value: @paginate) %>
+
+  <%= unless @paginate do %>
+    <%= label(f, :amount) %>
+    <%= number_input(
+      f,
+      :amount,
+      value: @amount,
+      min: min_amount(),
+      max: max_amount()
+    ) %>
+  <% else %>
+    <%= hidden_input(f, :amount, value: @amount) %>
+  <% end %>
 <% end %>
 
 <h1><%= @tick %></h1>
+
+<%= if @paginate do %>
+  <div class="footer">
+    <div class="pagination">
+      <%= if @page > 1 do %>
+        <%= pagination_link(
+          @socket,
+          "Previous",
+          @page - 1,
+          "previous"
+        ) %>
+      <% end %>
+      <%= for i <- (@page - 2)..(@page + 2), i > 0 do %>
+        <%= pagination_link(
+          @socket,
+          i,
+          i,
+          if(i == @page, do: "active")
+        ) %>
+      <% end %>
+      <%= pagination_link(
+        @socket,
+        "Next",
+        @page + 1,
+        "next"
+      ) %>
+    </div>
+  </div>
+<% end %>
 
 <table>
   <tr>
@@ -39,6 +71,31 @@
   />
 </table>
 
-<%= if @paginated do %>
-  We are paginated!!!
+<%= if @paginate do %>
+  <div class="footer">
+    <div class="pagination">
+      <%= if @page > 1 do %>
+        <%= pagination_link(
+          @socket,
+          "Previous",
+          @page - 1,
+          "previous"
+        ) %>
+      <% end %>
+      <%= for i <- (@page - 2)..(@page + 2), i > 0 do %>
+        <%= pagination_link(
+          @socket,
+          i,
+          i,
+          if(i == @page, do: "active")
+        ) %>
+      <% end %>
+      <%= pagination_link(
+        @socket,
+        "Next",
+        @page + 1,
+        "next"
+      ) %>
+    </div>
+  </div>
 <% end %>

@@ -13,12 +13,38 @@ defmodule SpeedyWeb.HomeLive do
      assign(
        socket,
        amount: initial_amount,
-       current_page: 1,
-       paginated: false,
+       page: 1,
+       paginate: false,
        people: People.list(limit: initial_amount),
        render_strategy: "default_comprehension",
        tick: 0
      )}
+  end
+
+  def handle_params(
+        params,
+        _url,
+        %Phoenix.LiveView.Socket{
+          assigns: %{
+            amount: amount,
+            paginate: paginate
+          }
+        } = socket
+      ) do
+    page = String.to_integer(params["page"] || "1")
+
+    socket =
+      assign(socket,
+        page: page,
+        people:
+          fetch_people(
+            amount: amount,
+            paginate: paginate,
+            page: page
+          )
+      )
+
+    {:noreply, socket}
   end
 
   @impl Phoenix.LiveView
@@ -28,10 +54,14 @@ defmodule SpeedyWeb.HomeLive do
           "people" => %{
             "amount" => amount_input,
             "render_strategy" => render_strategy,
-            "paginated" => paginated_input
+            "paginate" => paginate_input
           }
         },
-        socket
+        %Phoenix.LiveView.Socket{
+          assigns: %{
+            page: page
+          }
+        } = socket
       ) do
     amount = parse_amount(amount_input)
 
@@ -39,8 +69,13 @@ defmodule SpeedyWeb.HomeLive do
      assign(
        socket,
        amount: amount,
-       paginated: parse_boolean(paginated_input),
-       people: People.list(limit: amount),
+       paginate: parse_boolean(paginate_input),
+       people:
+         fetch_people(
+           amount: amount,
+           paginate: parse_boolean(paginate_input),
+           page: page
+         ),
        render_strategy: render_strategy
      )}
   end
@@ -50,7 +85,9 @@ defmodule SpeedyWeb.HomeLive do
         {:tick, tick_count},
         %Phoenix.LiveView.Socket{
           assigns: %{
-            amount: amount
+            amount: amount,
+            paginate: paginate,
+            page: page
           }
         } = socket
       ) do
@@ -58,11 +95,29 @@ defmodule SpeedyWeb.HomeLive do
     Logger.debug("ticking #{tick_count} ⏰")
 
     {:noreply,
-     assign(socket, people: People.list(limit: amount), tick: tick_count)}
+     assign(socket,
+       people:
+         fetch_people(
+           amount: amount,
+           paginate: paginate,
+           page: page
+         ),
+       tick: tick_count
+     )}
   end
 
-  def max_amount, do: 30000
-  def min_amount, do: 1
+  defp fetch_people(amount: amount, paginate: false, page: _) do
+    People.list(limit: amount)
+  end
+
+  defp fetch_people(amount: _, paginate: true, page: page) do
+    People.list(page: page)
+  end
+
+  defp max_amount, do: 30000
+  defp min_amount, do: 1
+
+  defp parse_amount(""), do: 1
 
   defp parse_amount(amount_input) do
     amount_input
@@ -76,5 +131,17 @@ defmodule SpeedyWeb.HomeLive do
       "true" -> true
       "false" -> false
     end
+  end
+
+  defp pagination_link(socket, text, page, class) do
+    live_patch(text,
+      to:
+        Routes.live_path(
+          socket,
+          __MODULE__,
+          page: page
+        ),
+      class: class
+    )
   end
 end
