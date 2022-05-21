@@ -2,20 +2,20 @@ defmodule SpeedyWeb.HomeLive do
   require Logger
   use SpeedyWeb, :live_view
   alias Speedy.People
+  @initial_amount 15
 
   @impl true
   def mount(_params, _session, socket) do
-    initial_amount = 15
-    send(self(), {:tick, 1})
-    Logger.debug("Mount 🐴")
+    Logger.debug("Mounting #{__MODULE__} 🐴")
+    subscribe_tick_pubsub()
 
     {:ok,
      assign(
        socket,
-       amount: initial_amount,
+       amount: @initial_amount,
        page: 1,
        paginate: false,
-       people: People.list(limit: initial_amount),
+       people: People.list(limit: @initial_amount),
        render_strategy: "default_comprehension",
        tick: 0
      )}
@@ -91,9 +91,6 @@ defmodule SpeedyWeb.HomeLive do
           }
         } = socket
       ) do
-    Process.send_after(self(), {:tick, tick_count + 1}, 1000)
-    Logger.debug("ticking #{tick_count} ⏰")
-
     {:noreply,
      assign(socket,
        people:
@@ -143,5 +140,9 @@ defmodule SpeedyWeb.HomeLive do
         ),
       class: class
     )
+  end
+
+  defp subscribe_tick_pubsub() do
+    Phoenix.PubSub.subscribe(Speedy.PubSub, "tick")
   end
 end
