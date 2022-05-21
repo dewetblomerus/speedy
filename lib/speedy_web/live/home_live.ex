@@ -17,7 +17,7 @@ defmodule SpeedyWeb.HomeLive do
        paginate: false,
        people: People.list(limit: @initial_amount),
        render_strategy: "default_comprehension",
-       tick: 0
+       tick: nil
      )}
   end
 
@@ -31,11 +31,13 @@ defmodule SpeedyWeb.HomeLive do
           }
         } = socket
       ) do
+    paginate = parse_boolean(params["paginate"] || "false")
     page = String.to_integer(params["page"] || "1")
 
     socket =
       assign(socket,
         page: page,
+        paginate: paginate,
         people:
           fetch_people(
             amount: amount,
@@ -64,19 +66,28 @@ defmodule SpeedyWeb.HomeLive do
         } = socket
       ) do
     amount = parse_amount(amount_input)
+    paginate = parse_boolean(paginate_input)
+
+    people =
+      fetch_people(
+        amount: amount,
+        paginate: parse_boolean(paginate_input),
+        page: page
+      )
+
+    updated_socket =
+      assign(
+        socket,
+        amount: amount,
+        paginate: paginate,
+        people: people,
+        render_strategy: render_strategy
+      )
 
     {:noreply,
-     assign(
-       socket,
-       amount: amount,
-       paginate: parse_boolean(paginate_input),
-       people:
-         fetch_people(
-           amount: amount,
-           paginate: parse_boolean(paginate_input),
-           page: page
-         ),
-       render_strategy: render_strategy
+     push_patch(
+       updated_socket,
+       to: Routes.live_path(updated_socket, __MODULE__, paginate: paginate)
      )}
   end
 
@@ -136,7 +147,8 @@ defmodule SpeedyWeb.HomeLive do
         Routes.live_path(
           socket,
           __MODULE__,
-          page: page
+          page: page,
+          paginate: true
         ),
       class: class
     )
@@ -144,5 +156,38 @@ defmodule SpeedyWeb.HomeLive do
 
   defp subscribe_tick_pubsub() do
     Phoenix.PubSub.subscribe(Speedy.PubSub, "tick")
+  end
+
+  defp paginate_buttons(%{paginate: false}), do: nil
+
+  defp paginate_buttons(assigns) do
+    ~H"""
+    <div class="footer">
+      <div class="pagination">
+        <%= if @page > 1 do %>
+          <%= pagination_link(
+            @socket,
+            "Previous",
+            @page - 1,
+            "previous"
+          ) %>
+        <% end %>
+        <%= for i <- (@page - 2)..(@page + 2), i > 0 do %>
+          <%= pagination_link(
+            @socket,
+            i,
+            i,
+            if(i == @page, do: "active")
+          ) %>
+        <% end %>
+        <%= pagination_link(
+          @socket,
+          "Next",
+          @page + 1,
+          "next"
+        ) %>
+      </div>
+    </div>
+    """
   end
 end

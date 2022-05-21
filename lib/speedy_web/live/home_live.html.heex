@@ -26,36 +26,9 @@
   <% end %>
 <% end %>
 
-<h1><%= @tick %></h1>
+<h3>Tick: <%= @tick %></h3>
 
-<%= if @paginate do %>
-  <div class="footer">
-    <div class="pagination">
-      <%= if @page > 1 do %>
-        <%= pagination_link(
-          @socket,
-          "Previous",
-          @page - 1,
-          "previous"
-        ) %>
-      <% end %>
-      <%= for i <- (@page - 2)..(@page + 2), i > 0 do %>
-        <%= pagination_link(
-          @socket,
-          i,
-          i,
-          if(i == @page, do: "active")
-        ) %>
-      <% end %>
-      <%= pagination_link(
-        @socket,
-        "Next",
-        @page + 1,
-        "next"
-      ) %>
-    </div>
-  </div>
-<% end %>
+<%= paginate_buttons(assigns) %>
 
 <table>
   <tr>
@@ -71,31 +44,4 @@
   />
 </table>
 
-<%= if @paginate do %>
-  <div class="footer">
-    <div class="pagination">
-      <%= if @page > 1 do %>
-        <%= pagination_link(
-          @socket,
-          "Previous",
-          @page - 1,
-          "previous"
-        ) %>
-      <% end %>
-      <%= for i <- (@page - 2)..(@page + 2), i > 0 do %>
-        <%= pagination_link(
-          @socket,
-          i,
-          i,
-          if(i == @page, do: "active")
-        ) %>
-      <% end %>
-      <%= pagination_link(
-        @socket,
-        "Next",
-        @page + 1,
-        "next"
-      ) %>
-    </div>
-  </div>
-<% end %>
+<%= paginate_buttons(assigns) %>
