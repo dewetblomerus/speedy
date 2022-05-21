@@ -31,7 +31,9 @@ defmodule Speedy.PeopleServer do
     # Logger.debug("people updated in #{us_update_people / 1000} milliseconds ✅")
 
     # Logger.debug("updating big list")
-    {us_update_big_list, _} = :timer.tc(__MODULE__, :update_big_list_of_people, [])
+    {us_update_big_list, _} =
+      :timer.tc(__MODULE__, :update_big_list_of_people, [])
+
     # Logger.debug("big_list updated in #{us_update_big_list / 1000} milliseconds 🌋")
     # Logger.debug("PeopleServer ticking #{tick_count} ⏰")
 
@@ -43,7 +45,7 @@ defmodule Speedy.PeopleServer do
   defp create_people() do
     :ets.insert(:people, {:all, People.generate(@big_list_length)})
 
-    for page <- 1..@pages do
+    for page <- 1..pages() do
       starting_id = (page - 1) * @per_page + 1
 
       :ets.insert(:people, {page, People.generate(@per_page, starting_id)})
@@ -51,7 +53,7 @@ defmodule Speedy.PeopleServer do
   end
 
   def update_people() do
-    page_range = 1..@pages
+    page_range = 1..pages()
 
     for page <- page_range do
       update_page(page)
@@ -59,17 +61,20 @@ defmodule Speedy.PeopleServer do
   end
 
   def update_page(page) do
-      updated_people =
-        People.list(page: page)
-        |> People.update(12)
+    updated_people =
+      People.list(page: page)
+      |> People.update(12)
 
-      :ets.insert(:people, {page, updated_people})
+    :ets.insert(:people, {page, updated_people})
   end
 
   def update_big_list_of_people() do
-    updated_people =
-      People.list_from_pages(limit: @big_list_length)
+    updated_people = People.list_from_pages(limit: @big_list_length)
 
     :ets.insert(:people, {:all, updated_people})
+  end
+
+  def pages() do
+    Application.fetch_env!(:speedy, :people_pages)
   end
 end

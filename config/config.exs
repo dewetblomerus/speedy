@@ -7,6 +7,9 @@
 # General application configuration
 import Config
 
+config :speedy,
+  people_pages: 10_000
+
 # Configures the endpoint
 config :speedy, SpeedyWeb.Endpoint,
   url: [host: "localhost"],
