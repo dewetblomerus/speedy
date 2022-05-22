@@ -164,13 +164,13 @@ defmodule SpeedyWeb.HomeLive do
     ~H"""
     <div class="footer">
       <div class="pagination">
-        <%= pagination_link(
-          @socket,
-          "First",
-          1,
-          "first"
-        ) %>
         <%= if @page > 1 do %>
+          <%= pagination_link(
+            @socket,
+            "First",
+            1,
+            "first"
+          ) %>
           <%= pagination_link(
             @socket,
             "Previous",
@@ -193,13 +193,13 @@ defmodule SpeedyWeb.HomeLive do
             @page + 1,
             "next"
           ) %>
+          <%= pagination_link(
+            @socket,
+            "Last",
+            pages(),
+            "last"
+          ) %>
         <% end %>
-        <%= pagination_link(
-          @socket,
-          "Last",
-          pages(),
-          "last"
-        ) %>
       </div>
     </div>
     """
