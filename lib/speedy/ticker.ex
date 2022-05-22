@@ -15,6 +15,12 @@ defmodule Speedy.Ticker do
   end
 
   @impl true
+  def handle_info(:tick, state) when state > 998 do
+    send_tick_pubsub(state)
+    {:noreply, 0}
+  end
+
+  @impl true
   def handle_info(:tick, state) do
     send_tick_pubsub(state)
     {:noreply, state + 1}
