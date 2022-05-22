@@ -1,3 +1,4 @@
+<h3>Tick: <%= @tick %></h3>
 <%= form_for :people, "#", [as: :search, phx_change: :update], fn f -> %>
   <%= label(f, :render_strategy) %>
   <%= select(
@@ -25,8 +26,6 @@
     <%= hidden_input(f, :amount, value: @amount) %>
   <% end %>
 <% end %>
-
-<h3>Tick: <%= @tick %></h3>
 
 <%= paginate_buttons(assigns) %>
 

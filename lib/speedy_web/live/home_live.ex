@@ -178,7 +178,7 @@ defmodule SpeedyWeb.HomeLive do
             "previous"
           ) %>
         <% end %>
-        <%= for i <- (@page - 2)..(@page + 2), i > 0 do %>
+        <%= for i <- (@page - 1)..(@page + 1), i > 0 && i <= pages() do %>
           <%= pagination_link(
             @socket,
             i,
@@ -186,12 +186,14 @@ defmodule SpeedyWeb.HomeLive do
             if(i == @page, do: "active")
           ) %>
         <% end %>
-        <%= pagination_link(
-          @socket,
-          "Next",
-          @page + 1,
-          "next"
-        ) %>
+        <%= if @page < pages() do %>
+          <%= pagination_link(
+            @socket,
+            "Next",
+            @page + 1,
+            "next"
+          ) %>
+        <% end %>
         <%= pagination_link(
           @socket,
           "Last",

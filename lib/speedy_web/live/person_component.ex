@@ -5,13 +5,13 @@ defmodule SpeedyWeb.PersonComponent do
 
   def render(assigns) do
     ~H"""
-      <tr>
-        <td><%= @person.id %></td>
-        <td><%= @person.name %></td>
-        <td><%= @person.age %></td>
-        <td><%= @person.weapon %></td>
-        <td><%= @person.status %></td>
-      </tr>
+    <tr>
+      <td><%= @person.id %></td>
+      <td><%= @person.name %></td>
+      <td><%= @person.age %></td>
+      <td><%= @person.weapon %></td>
+      <td><%= @person.status %></td>
+    </tr>
     """
   end
 end
