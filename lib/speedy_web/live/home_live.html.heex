@@ -1,5 +1,5 @@
 <h3>Tick: <%= @tick %></h3>
-<%= form_for :people, "#", [as: :search, phx_change: :update], fn f -> %>
+<%= form_for :people, "", [as: :search, phx_change: :update, phx_submit: :update], fn f -> %>
   <fieldset class="flex-row">
     <%= label(f, :render_strategy) %>
     <%= select(
