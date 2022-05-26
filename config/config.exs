@@ -8,7 +8,7 @@
 import Config
 
 config :speedy,
-  people_pages: 10_000
+  people_pages: 50_000
 
 # Configures the endpoint
 config :speedy, SpeedyWeb.Endpoint,

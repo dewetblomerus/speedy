@@ -4,7 +4,7 @@ defmodule Speedy.Ticker do
   alias Speedy.PubSub
 
   def start_link(_) do
-    GenServer.start_link(__MODULE__, 0)
+    GenServer.start_link(__MODULE__, 0, name: __MODULE__)
   end
 
   @impl true

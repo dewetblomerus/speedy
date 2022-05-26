@@ -16,6 +16,7 @@ defmodule Speedy.Application do
       SpeedyWeb.Endpoint,
       Speedy.PeopleServer,
       Speedy.Ticker
+      # {Task, fn -> :observer.start() end}
       # Start a worker by calling: Speedy.Worker.start_link(arg)
       # {Speedy.Worker, arg}
     ]
