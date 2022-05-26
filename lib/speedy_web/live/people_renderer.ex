@@ -3,7 +3,12 @@ defmodule SpeedyWeb.PeopleRenderer do
 
   def list_people(%{render_strategy: "default_comprehension"} = assigns) do
     ~H"""
-    <h3>Heex Inside Comprehension</h3>
+    <a
+      href="https://github.com/dewetblomerus/speedy/blob/main/lib/speedy_web/live/people_renderer.ex#L10-L20"
+      target="_blank"
+    >
+      <h3>Heex Inside Comprehension</h3>
+    </a>
     <%= for person <- @people do %>
       <tr>
         <td><%= person.id %></td>
@@ -18,7 +23,12 @@ defmodule SpeedyWeb.PeopleRenderer do
 
   def list_people(%{render_strategy: "default_with_id"} = assigns) do
     ~H"""
-    <h3>Heex Inside Comprehension With ID</h3>
+    <a
+      href="https://github.com/dewetblomerus/speedy/blob/main/lib/speedy_web/live/people_renderer.ex#L30-L40"
+      target="_blank"
+    >
+      <h3>Heex Inside Comprehension With ID</h3>
+    </a>
     <%= for person <- @people do %>
       <tr id={"person-#{person.id}"}>
         <td><%= person.id %></td>
@@ -33,7 +43,12 @@ defmodule SpeedyWeb.PeopleRenderer do
 
   def list_people(%{render_strategy: "live_components_number_ids"} = assigns) do
     ~H"""
-    <h3>Live Components Number Ids</h3>
+    <a
+      href="https://github.com/dewetblomerus/speedy/blob/main/lib/speedy_web/live/people_renderer.ex#L50-L58"
+      target="_blank"
+    >
+      <h3>Live Components Number Ids</h3>
+    </a>
     <%= for person <- @people do %>
       <.live_component
         module={SpeedyWeb.PersonComponent}
@@ -46,7 +61,12 @@ defmodule SpeedyWeb.PeopleRenderer do
 
   def list_people(%{render_strategy: "live_components_string_ids"} = assigns) do
     ~H"""
-    <h3>Live Components String Ids</h3>
+    <a
+      href="https://github.com/dewetblomerus/speedy/blob/main/lib/speedy_web/live/people_renderer.ex#L68-L76"
+      target="_blank"
+    >
+      <h3>Live Components String Ids</h3>
+    </a>
     <%= for person <- @people do %>
       <.live_component
         module={SpeedyWeb.PersonComponent}
