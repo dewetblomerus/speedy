@@ -1,27 +1,33 @@
 <h3>Tick: <%= @tick %></h3>
 <%= form_for :people, "#", [as: :search, phx_change: :update], fn f -> %>
-  <%= label(f, :render_strategy) %>
-  <%= select(
-    f,
-    :render_strategy,
-    "Heex Inside Comprehension": "default_comprehension",
-    "Heex Inside Comprehension With ID": "default_with_id",
-    "Live Components Number Ids": "live_components_number_ids",
-    "Live Components String Ids": "live_components_string_ids"
-  ) %>
+  <fieldset class="flex-row">
+    <%= label(f, :render_strategy) %>
+    <%= select(
+      f,
+      :render_strategy,
+      "Heex Inside Comprehension": "default_comprehension",
+      "Heex Inside Comprehension With ID": "default_with_id",
+      "Live Components Number Ids": "live_components_number_ids",
+      "Live Components String Ids": "live_components_string_ids"
+    ) %>
+  </fieldset>
 
-  <%= label(f, :paginate) %>
-  <%= checkbox(f, :paginate, value: @paginate) %>
+  <fieldset class="flex-row">
+    <%= label(f, :paginate) %>
+    <%= checkbox(f, :paginate, value: @paginate) %>
+  </fieldset>
 
   <%= unless @paginate do %>
-    <%= label(f, :amount) %>
-    <%= number_input(
-      f,
-      :amount,
-      value: @amount,
-      min: min_amount(),
-      max: max_amount()
-    ) %>
+    <fieldset class="flex-row">
+      <%= label(f, :amount) %>
+      <%= number_input(
+        f,
+        :amount,
+        value: @amount,
+        min: min_amount(),
+        max: max_amount()
+      ) %>
+    </fieldset>
   <% else %>
     <%= hidden_input(f, :amount, value: @amount) %>
   <% end %>

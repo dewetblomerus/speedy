@@ -98,6 +98,34 @@
 .fade-out {
   animation: 0.2s ease-out 0s normal forwards 1 fade-out-keys;
 }
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+    align-items: center;
+      justify-content: center;
+}
+
+fieldset {
+  width: fit-content;
+  padding-block-start: 0px;
+  height: 20px;
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+    position: relative;
+}
+
+label {
+  margin-right: 8px;
+  margin-top: 50%;
+  margin-bottom: 50%;
+}
+
+input {
+  margin-top: 50%;
+  margin-bottom: 50%;
+
+}
 
 @keyframes fade-in-scale-keys{
   0% { scale: 0.95; opacity: 0; }
