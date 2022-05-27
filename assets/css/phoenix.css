@@ -184,7 +184,7 @@ hr {
   border-top: 0.1rem solid #f4f5f6;
   margin: 3rem 0;
 }
-input[type="color"],
+/* input[type="color"],
 input[type="date"],
 input[type="datetime"],
 input[type="datetime-local"],
@@ -201,7 +201,7 @@ input:not([type]),
 textarea,
 select {
   -webkit-appearance: none;
-  background-color: transparent;
+  background-color: white;
   border: 0.1rem solid #d1d1d1;
   border-radius: 0.4rem;
   box-shadow: none;
@@ -209,7 +209,7 @@ select {
   height: 30px;
   padding: 0.6rem 1rem 0.7rem;
   width: 100%;
-}
+} */
 input[type="color"]:focus,
 input[type="date"]:focus,
 input[type="datetime"]:focus,
@@ -453,7 +453,7 @@ fieldset,
 input,
 select,
 textarea {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 blockquote,
 dl,
