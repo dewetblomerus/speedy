@@ -162,7 +162,7 @@ defmodule SpeedyWeb.HomeLive do
 
   defp paginate_buttons(assigns) do
     ~H"""
-    <div class="footer">
+    <div class="flex-row">
       <div class="pagination">
         <%= if @page > 1 do %>
           <%= pagination_link(
