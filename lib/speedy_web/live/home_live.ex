@@ -14,7 +14,7 @@ defmodule SpeedyWeb.HomeLive do
       amount: @initial_amount,
       page: 1,
       paginate: false,
-      render_strategy: "default_comprehension"
+      render_strategy: "Heex Inside Comprehension"
     }
 
     {:ok, _} = Presence.track(self(), "user-state", socket.id, initial_meta)

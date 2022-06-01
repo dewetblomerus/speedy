@@ -19,7 +19,7 @@ defmodule SpeedyWeb.OverviewLive do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <h1>Overview Page</h1>
+    <h1>Current Users</h1>
 
     <table>
       <tr>
@@ -30,7 +30,7 @@ defmodule SpeedyWeb.OverviewLive do
       </tr>
       <%= for user <- list_users(@presence_list) do %>
         <tr>
-          <td><%= user.amount %></td>
+          <td><%= display_amount(user.amount, user.paginate) %></td>
           <td><%= user.page %></td>
           <td><%= user.paginate %></td>
           <td><%= user.render_strategy %></td>
@@ -64,5 +64,13 @@ defmodule SpeedyWeb.OverviewLive do
          ]
        }) do
     user |> Map.drop([:phx_ref, :phx_ref_prev])
+  end
+
+  defp display_amount(_, true) do
+    15
+  end
+
+  defp display_amount(amount, _) do
+    amount
   end
 end

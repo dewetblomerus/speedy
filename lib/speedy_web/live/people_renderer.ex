@@ -1,7 +1,7 @@
 defmodule SpeedyWeb.PeopleRenderer do
   use Phoenix.Component
 
-  def list_people(%{render_strategy: "default_comprehension"} = assigns) do
+  def list_people(%{render_strategy: "Heex Inside Comprehension"} = assigns) do
     ~H"""
     <a
       href="https://github.com/dewetblomerus/speedy/blob/main/lib/speedy_web/live/people_renderer.ex#L10-L20"
@@ -21,7 +21,9 @@ defmodule SpeedyWeb.PeopleRenderer do
     """
   end
 
-  def list_people(%{render_strategy: "default_with_id"} = assigns) do
+  def list_people(
+        %{render_strategy: "Heex Inside Comprehension With ID"} = assigns
+      ) do
     ~H"""
     <a
       href="https://github.com/dewetblomerus/speedy/blob/main/lib/speedy_web/live/people_renderer.ex#L30-L40"
@@ -41,7 +43,7 @@ defmodule SpeedyWeb.PeopleRenderer do
     """
   end
 
-  def list_people(%{render_strategy: "live_components_number_ids"} = assigns) do
+  def list_people(%{render_strategy: "Live Components Number IDs"} = assigns) do
     ~H"""
     <a
       href="https://github.com/dewetblomerus/speedy/blob/main/lib/speedy_web/live/people_renderer.ex#L50-L58"
@@ -59,7 +61,7 @@ defmodule SpeedyWeb.PeopleRenderer do
     """
   end
 
-  def list_people(%{render_strategy: "live_components_string_ids"} = assigns) do
+  def list_people(%{render_strategy: "Live Components String IDs"} = assigns) do
     ~H"""
     <a
       href="https://github.com/dewetblomerus/speedy/blob/main/lib/speedy_web/live/people_renderer.ex#L68-L76"
