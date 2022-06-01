@@ -13,9 +13,10 @@ defmodule Speedy.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Speedy.PubSub},
       # Start the Endpoint (http/https)
-      SpeedyWeb.Endpoint,
       Speedy.PeopleServer,
-      Speedy.Ticker
+      SpeedyWeb.Presence,
+      Speedy.Ticker,
+      SpeedyWeb.Endpoint
       # {Task, fn -> :observer.start() end}
       # Start a worker by calling: Speedy.Worker.start_link(arg)
       # {Speedy.Worker, arg}

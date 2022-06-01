@@ -20,6 +20,7 @@ defmodule SpeedyWeb.Router do
     pipe_through :browser
 
     live "/", HomeLive
+    live "/overview", OverviewLive
     live_dashboard "/dashboard", metrics: SpeedyWeb.Telemetry
   end
 

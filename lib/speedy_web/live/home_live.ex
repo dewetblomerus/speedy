@@ -2,6 +2,7 @@ defmodule SpeedyWeb.HomeLive do
   require Logger
   use SpeedyWeb, :live_view
   alias Speedy.People
+  alias SpeedyWeb.Presence
   @initial_amount 15
 
   @impl true
@@ -9,15 +10,25 @@ defmodule SpeedyWeb.HomeLive do
     Logger.debug("Mounting #{__MODULE__} 🐴")
     subscribe_tick_pubsub()
 
+    initial_meta = %{
+      amount: @initial_amount,
+      page: 1,
+      paginate: false,
+      render_strategy: "default_comprehension"
+    }
+
+    {:ok, _} = Presence.track(self(), "user-state", socket.id, initial_meta)
+
+    initial_assigns =
+      Map.merge(initial_meta, %{
+        tick: nil,
+        people: People.list(limit: @initial_amount)
+      })
+
     {:ok,
      assign(
        socket,
-       amount: @initial_amount,
-       page: 1,
-       paginate: false,
-       people: People.list(limit: @initial_amount),
-       render_strategy: "default_comprehension",
-       tick: nil
+       initial_assigns
      )}
   end
 
@@ -33,6 +44,21 @@ defmodule SpeedyWeb.HomeLive do
       ) do
     paginate = parse_boolean(params["paginate"] || "false")
     page = String.to_integer(params["page"] || "1")
+
+    new_meta = %{
+      amount: amount,
+      page: page,
+      paginate: paginate,
+      render_strategy: socket.assigns.render_strategy
+    }
+
+    {:ok, _} =
+      Presence.update(
+        self(),
+        "user-state",
+        socket.id,
+        new_meta
+      )
 
     socket =
       assign(socket,
@@ -75,19 +101,29 @@ defmodule SpeedyWeb.HomeLive do
         page: page
       )
 
-    updated_socket =
-      assign(
-        socket,
-        amount: amount,
-        paginate: paginate,
-        people: people,
-        render_strategy: render_strategy
+    new_meta = %{
+      amount: amount,
+      page: page,
+      paginate: paginate,
+      render_strategy: render_strategy
+    }
+
+    {:ok, _} =
+      Presence.update(
+        self(),
+        "user-state",
+        socket.id,
+        new_meta
       )
+
+    new_assigns = Map.put(new_meta, :people, people)
+
+    new_socket = assign(socket, new_assigns)
 
     {:noreply,
      push_patch(
-       updated_socket,
-       to: Routes.live_path(updated_socket, __MODULE__, paginate: paginate)
+       new_socket,
+       to: Routes.live_path(new_socket, __MODULE__, paginate: paginate)
      )}
   end
 
