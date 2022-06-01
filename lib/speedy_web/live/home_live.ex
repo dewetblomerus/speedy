@@ -17,7 +17,7 @@ defmodule SpeedyWeb.HomeLive do
       render_strategy: "Heex Inside Comprehension"
     }
 
-    {:ok, _} = Presence.track(self(), "user-state", socket.id, initial_meta)
+    get_tracked_by_presence(socket, initial_meta)
 
     initial_assigns =
       Map.merge(initial_meta, %{
@@ -150,6 +150,14 @@ defmodule SpeedyWeb.HomeLive do
      )}
   end
 
+  defp subscribe_tick_pubsub() do
+    Phoenix.PubSub.subscribe(Speedy.PubSub, "tick")
+  end
+
+  defp get_tracked_by_presence(socket, initial_meta) do
+    {:ok, _} = Presence.track(self(), "user-state", socket.id, initial_meta)
+  end
+
   defp fetch_people(amount: amount, paginate: false, page: _) do
     People.list(limit: amount)
   end
@@ -188,10 +196,6 @@ defmodule SpeedyWeb.HomeLive do
         ),
       class: class
     )
-  end
-
-  defp subscribe_tick_pubsub() do
-    Phoenix.PubSub.subscribe(Speedy.PubSub, "tick")
   end
 
   defp paginate_buttons(%{paginate: false}), do: nil
