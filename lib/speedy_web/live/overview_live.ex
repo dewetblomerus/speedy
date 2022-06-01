@@ -11,8 +11,6 @@ defmodule SpeedyWeb.OverviewLive do
     :ok = Phoenix.PubSub.subscribe(Speedy.PubSub, "user-state")
     presence_list = Presence.list("user-state")
 
-    # IO.inspect(list, label: "list 📖")
-
     {:ok, assign(socket, presence_list: presence_list)}
   end
 
@@ -48,8 +46,6 @@ defmodule SpeedyWeb.OverviewLive do
     new_presence_list =
       PresenceState.sync_diff(socket.assigns.presence_list, payload)
 
-    # IO.inspect(payload, label: "payload 💰")
-    IO.inspect(socket.assigns.presence_list, label: "presence_list 📋")
     {:noreply, assign(socket, presence_list: new_presence_list)}
   end
 
