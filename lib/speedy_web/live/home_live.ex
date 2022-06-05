@@ -248,4 +248,7 @@ defmodule SpeedyWeb.HomeLive do
   defp pages() do
     Application.fetch_env!(:speedy, :people_pages)
   end
+
+  defp debounce_ms(amount) when amount < 25, do: 1
+  defp debounce_ms(_), do: 200
 end

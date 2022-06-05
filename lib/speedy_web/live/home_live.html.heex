@@ -25,7 +25,8 @@
         :amount,
         value: @amount,
         min: min_amount(),
-        max: max_amount()
+        max: max_amount(),
+        phx_debounce: debounce_ms(@amount)
       ) %>
     </fieldset>
   <% else %>
