@@ -26,7 +26,7 @@ defmodule SpeedyWeb.PeopleRenderer do
       ) do
     ~H"""
     <a
-      href="https://github.com/dewetblomerus/speedy/blob/main/lib/speedy_web/live/people_renderer.ex#L30-L40"
+      href="https://github.com/dewetblomerus/speedy/blob/main/lib/speedy_web/live/people_renderer.ex#L32-L42"
       target="_blank"
     >
       <h3>Heex Inside Comprehension With ID</h3>
@@ -46,7 +46,7 @@ defmodule SpeedyWeb.PeopleRenderer do
   def list_people(%{render_strategy: "Live Components Number IDs"} = assigns) do
     ~H"""
     <a
-      href="https://github.com/dewetblomerus/speedy/blob/main/lib/speedy_web/live/people_renderer.ex#L50-L58"
+      href="https://github.com/dewetblomerus/speedy/blob/main/lib/speedy_web/live/people_renderer.ex#L52-L60"
       target="_blank"
     >
       <h3>Live Components Number Ids</h3>
@@ -64,7 +64,7 @@ defmodule SpeedyWeb.PeopleRenderer do
   def list_people(%{render_strategy: "Live Components String IDs"} = assigns) do
     ~H"""
     <a
-      href="https://github.com/dewetblomerus/speedy/blob/main/lib/speedy_web/live/people_renderer.ex#L68-L76"
+      href="https://github.com/dewetblomerus/speedy/blob/main/lib/speedy_web/live/people_renderer.ex#L70-L78"
       target="_blank"
     >
       <h3>Live Components String Ids</h3>
